@@ -49,8 +49,6 @@ public class LdapAuth {
         env.put(Context.SECURITY_CREDENTIALS, password);
         ctx = new InitialDirContext(env);
         return ctx;
-
-
     }
 
 
@@ -74,4 +72,5 @@ public class LdapAuth {
         }
         return null;
     }
+
 }
