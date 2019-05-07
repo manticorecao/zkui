@@ -96,7 +96,7 @@ public class Login extends HttpServlet {
                         NamingEnumeration<SearchResult> results = ctx.search(globalProps.getProperty("ldapRoleGroupDn"), searchFilter, searchControls);
                         while (results.hasMoreElements()) {
                             SearchResult searchResult = results.nextElement();
-                            Attribute memberAttribute = searchResult.getAttributes().get("member");
+                            Attribute memberAttribute = searchResult.getAttributes().get(globalProps.getProperty("ldapRoleGroupSearchAttribute"));
                             if(memberAttribute != null
                                     && (memberAttribute.contains("uid=" + username + "," + globalProps.getProperty("ldapUserGroupDn")))){
                                 Attribute roleAttribute = searchResult.getAttributes().get("cn");
