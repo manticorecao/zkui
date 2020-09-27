@@ -48,14 +48,22 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         logger.debug("Starting ZKUI!");
+
+        String appConfPath = System.getenv("ZKUI_HOME");
         Properties globalProps = new Properties();
-        File f = new File("config.cfg");
+        if(appConfPath == null || appConfPath.length() == 0) {
+            System.out.println("env parameter ZKUI_HOME isn't set, such as ZKUI_HOME=/opt/zkui/zkui-2.0/ or actual path of zkui install");
+            System.exit(1);
+        }
+        appConfPath = appConfPath + "config.cfg";
+        File f = new File(appConfPath);
         if (f.exists()) {
-            globalProps.load(new FileInputStream("config.cfg"));
+            globalProps.load(new FileInputStream(appConfPath));
         } else {
             System.out.println("Please create config.cfg properties file and then execute the program!");
             System.exit(1);
         }
+
 
         globalProps.setProperty("uptime", new Date().toString());
         new Dao(globalProps).checkNCreate();
