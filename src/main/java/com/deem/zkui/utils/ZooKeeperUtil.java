@@ -431,4 +431,22 @@ public enum ZooKeeperUtil {
 
         }
     }
+
+    public void addAuthInfo(ZooKeeper zooKeeper, String jsonAuthInfo) {
+        if (jsonAuthInfo == null || jsonAuthInfo.trim().length() == 0) {
+            return;
+        } else {
+            try {
+                JSONObject authInfo = (JSONObject) new JSONParser().parse(jsonAuthInfo);
+                String scheme = (String)authInfo.get("scheme");
+                String auth = (String)authInfo.get("auth");
+                if (auth == null || auth.trim().length() == 0) {
+                    throw new RuntimeException();
+                }
+                zooKeeper.addAuthInfo(scheme, auth.getBytes());
+            } catch (Exception e) {
+                throw new RuntimeException("Unable to parse auth info " + jsonAuthInfo, e);
+            }
+        }
+    }
 }
